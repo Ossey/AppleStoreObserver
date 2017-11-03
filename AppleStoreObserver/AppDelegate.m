@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "XYLocationManager.h"
 #import "OSLoaclNotificationHelper.h"
-#import "UIAlertView+Blocks.h"
 
 @interface AppDelegate ()  {
     UIBackgroundTaskIdentifier _bgTask;
@@ -47,8 +46,6 @@
     NSDictionary *dict = [OSLoaclNotificationHelper sharedInstance].notifyDict;
 //    NSString *message = [NSString stringWithFormat:@"可预定店面:%@, 产品型号:%@, 产品描述:%@", dict[@"storeName"], dict[@"partNumber"], dict[@"description"]];
     NSString *urlString = dict[@"urlString"];
-    //    [UIAlertView showWithTitle:@"有货通知" message:message cancelButtonTitle:@"取消" otherButtonTitles:@[@"预定"] tapBlock:^(UIAlertView * _Nonnull alertView, NSInteger buttonIndex) {
-    //        if (buttonIndex == 1) {
     NSURL *url = [NSURL URLWithString:urlString];
     if (@available(iOS 10.0, *)) {
         [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
@@ -57,8 +54,6 @@
     } else {
         [[UIApplication sharedApplication] openURL:url];
     }
-    //        }
-    //    }];
     
     // 点击通知后，就让图标上的数字减1
     application.applicationIconBadgeNumber -= 1;
