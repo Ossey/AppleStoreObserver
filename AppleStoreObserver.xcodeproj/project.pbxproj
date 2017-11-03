@@ -1,0 +1,496 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		173A82EECA4AF54F8ADC981D /* libPods-AppleStoreObserver.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D09013DDBF0D2349961C71E /* libPods-AppleStoreObserver.a */; };
+		1845ED991FAECCBD00855799 /* storeImage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1845ED981FAECCBC00855799 /* storeImage.bundle */; };
+		18EB61B31FA22FB200BDFAB3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EB61B21FA22FB200BDFAB3 /* AppDelegate.m */; };
+		18EB61B91FA22FB200BDFAB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18EB61B71FA22FB200BDFAB3 /* Main.storyboard */; };
+		18EB61BB1FA22FB200BDFAB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18EB61BA1FA22FB200BDFAB3 /* Assets.xcassets */; };
+		18EB61BE1FA22FB200BDFAB3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18EB61BC1FA22FB200BDFAB3 /* LaunchScreen.storyboard */; };
+		18EB61C11FA22FB200BDFAB3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EB61C01FA22FB200BDFAB3 /* main.m */; };
+		18EB61C81FA2329B00BDFAB3 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EB61C71FA2329B00BDFAB3 /* ProductViewController.m */; };
+		18EB61CC1FA2338900BDFAB3 /* ProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EB61CB1FA2338900BDFAB3 /* ProductTableViewCell.m */; };
+		18EB61CF1FA233E800BDFAB3 /* ProductItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EB61CE1FA233E800BDFAB3 /* ProductItem.m */; };
+		18EB61D11FA236C200BDFAB3 /* Products.json in Resources */ = {isa = PBXBuildFile; fileRef = 18EB61D01FA236C200BDFAB3 /* Products.json */; };
+		18EB61D41FA2392C00BDFAB3 /* StoreItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EB61D31FA2392C00BDFAB3 /* StoreItem.m */; };
+		18EB61D71FA23B5B00BDFAB3 /* StoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EB61D61FA23B5B00BDFAB3 /* StoreViewController.m */; };
+		18EB61DD1FA23D6100BDFAB3 /* StoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EB61DB1FA23D6100BDFAB3 /* StoreTableViewCell.m */; };
+		18EB61DE1FA23D6100BDFAB3 /* StoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18EB61DC1FA23D6100BDFAB3 /* StoreTableViewCell.xib */; };
+		18EB61E11FA2451B00BDFAB3 /* XYLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EB61DF1FA2451A00BDFAB3 /* XYLocationManager.m */; };
+		18EB61E41FA2453C00BDFAB3 /* LocationConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EB61E21FA2453C00BDFAB3 /* LocationConverter.m */; };
+		18EB61E61FA24BEC00BDFAB3 /* ProductTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18EB61E51FA24BEC00BDFAB3 /* ProductTableViewCell.xib */; };
+		18EB61E91FA2545E00BDFAB3 /* ProductAvailability.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EB61E81FA2545E00BDFAB3 /* ProductAvailability.m */; };
+		18ED11EA1FAE10ED007F4E92 /* StoreDetailItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18ED11E91FAE10ED007F4E92 /* StoreDetailItem.m */; };
+		18ED11EF1FAE3134007F4E92 /* UIImage+XYImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18ED11ED1FAE3134007F4E92 /* UIImage+XYImage.m */; };
+		18ED11F51FAE4078007F4E92 /* OSLoaclNotificationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18ED11F41FAE4077007F4E92 /* OSLoaclNotificationHelper.m */; };
+		18ED11F81FAE43EE007F4E92 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 18ED11F61FAE43EE007F4E92 /* UIAlertView+Blocks.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1845ED981FAECCBC00855799 /* storeImage.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = storeImage.bundle; sourceTree = "<group>"; };
+		18EB61AE1FA22FB200BDFAB3 /* AppleStoreObserver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppleStoreObserver.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		18EB61B11FA22FB200BDFAB3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		18EB61B21FA22FB200BDFAB3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		18EB61B81FA22FB200BDFAB3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		18EB61BA1FA22FB200BDFAB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		18EB61BD1FA22FB200BDFAB3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		18EB61BF1FA22FB200BDFAB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18EB61C01FA22FB200BDFAB3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		18EB61C71FA2329B00BDFAB3 /* ProductViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductViewController.m; sourceTree = "<group>"; };
+		18EB61C91FA232AD00BDFAB3 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductViewController.h; sourceTree = "<group>"; };
+		18EB61CA1FA2338900BDFAB3 /* ProductTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductTableViewCell.h; sourceTree = "<group>"; };
+		18EB61CB1FA2338900BDFAB3 /* ProductTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductTableViewCell.m; sourceTree = "<group>"; };
+		18EB61CD1FA233E800BDFAB3 /* ProductItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductItem.h; sourceTree = "<group>"; };
+		18EB61CE1FA233E800BDFAB3 /* ProductItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductItem.m; sourceTree = "<group>"; };
+		18EB61D01FA236C200BDFAB3 /* Products.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Products.json; sourceTree = "<group>"; };
+		18EB61D21FA2392C00BDFAB3 /* StoreItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoreItem.h; sourceTree = "<group>"; };
+		18EB61D31FA2392C00BDFAB3 /* StoreItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreItem.m; sourceTree = "<group>"; };
+		18EB61D51FA23B5B00BDFAB3 /* StoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoreViewController.h; sourceTree = "<group>"; };
+		18EB61D61FA23B5B00BDFAB3 /* StoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreViewController.m; sourceTree = "<group>"; };
+		18EB61DA1FA23D6100BDFAB3 /* StoreTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoreTableViewCell.h; sourceTree = "<group>"; };
+		18EB61DB1FA23D6100BDFAB3 /* StoreTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreTableViewCell.m; sourceTree = "<group>"; };
+		18EB61DC1FA23D6100BDFAB3 /* StoreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StoreTableViewCell.xib; sourceTree = "<group>"; };
+		18EB61DF1FA2451A00BDFAB3 /* XYLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYLocationManager.m; sourceTree = "<group>"; };
+		18EB61E01FA2451B00BDFAB3 /* XYLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XYLocationManager.h; sourceTree = "<group>"; };
+		18EB61E21FA2453C00BDFAB3 /* LocationConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationConverter.m; sourceTree = "<group>"; };
+		18EB61E31FA2453C00BDFAB3 /* LocationConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationConverter.h; sourceTree = "<group>"; };
+		18EB61E51FA24BEC00BDFAB3 /* ProductTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductTableViewCell.xib; sourceTree = "<group>"; };
+		18EB61E71FA2545E00BDFAB3 /* ProductAvailability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductAvailability.h; sourceTree = "<group>"; };
+		18EB61E81FA2545E00BDFAB3 /* ProductAvailability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductAvailability.m; sourceTree = "<group>"; };
+		18ED11E81FAE10ED007F4E92 /* StoreDetailItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoreDetailItem.h; sourceTree = "<group>"; };
+		18ED11E91FAE10ED007F4E92 /* StoreDetailItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreDetailItem.m; sourceTree = "<group>"; };
+		18ED11ED1FAE3134007F4E92 /* UIImage+XYImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+XYImage.m"; sourceTree = "<group>"; };
+		18ED11EE1FAE3134007F4E92 /* UIImage+XYImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+XYImage.h"; sourceTree = "<group>"; };
+		18ED11F31FAE4077007F4E92 /* OSLoaclNotificationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSLoaclNotificationHelper.h; sourceTree = "<group>"; };
+		18ED11F41FAE4077007F4E92 /* OSLoaclNotificationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSLoaclNotificationHelper.m; sourceTree = "<group>"; };
+		18ED11F61FAE43EE007F4E92 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
+		18ED11F71FAE43EE007F4E92 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
+		2D09013DDBF0D2349961C71E /* libPods-AppleStoreObserver.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AppleStoreObserver.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F41D283059F3B4D6DB8B94C /* Pods-AppleStoreObserver.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppleStoreObserver.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AppleStoreObserver/Pods-AppleStoreObserver.debug.xcconfig"; sourceTree = "<group>"; };
+		A0DE8F592CFCBBF0D0BE1119 /* Pods-AppleStoreObserver.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppleStoreObserver.release.xcconfig"; path = "Pods/Target Support Files/Pods-AppleStoreObserver/Pods-AppleStoreObserver.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		18EB61AB1FA22FB200BDFAB3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				173A82EECA4AF54F8ADC981D /* libPods-AppleStoreObserver.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		18EB61A51FA22FB200BDFAB3 = {
+			isa = PBXGroup;
+			children = (
+				18EB61B01FA22FB200BDFAB3 /* AppleStoreObserver */,
+				18EB61AF1FA22FB200BDFAB3 /* Products */,
+				CEF9345D329EC30CA78C1374 /* Pods */,
+				C1480AA37BEE6FAD75DA8B49 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		18EB61AF1FA22FB200BDFAB3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18EB61AE1FA22FB200BDFAB3 /* AppleStoreObserver.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18EB61B01FA22FB200BDFAB3 /* AppleStoreObserver */ = {
+			isa = PBXGroup;
+			children = (
+				1845ED981FAECCBC00855799 /* storeImage.bundle */,
+				18EB61B11FA22FB200BDFAB3 /* AppDelegate.h */,
+				18EB61B21FA22FB200BDFAB3 /* AppDelegate.m */,
+				18EB61C91FA232AD00BDFAB3 /* ProductViewController.h */,
+				18EB61C71FA2329B00BDFAB3 /* ProductViewController.m */,
+				18EB61CA1FA2338900BDFAB3 /* ProductTableViewCell.h */,
+				18EB61CB1FA2338900BDFAB3 /* ProductTableViewCell.m */,
+				18EB61E51FA24BEC00BDFAB3 /* ProductTableViewCell.xib */,
+				18EB61D51FA23B5B00BDFAB3 /* StoreViewController.h */,
+				18EB61D61FA23B5B00BDFAB3 /* StoreViewController.m */,
+				18EB61CD1FA233E800BDFAB3 /* ProductItem.h */,
+				18EB61CE1FA233E800BDFAB3 /* ProductItem.m */,
+				18EB61D21FA2392C00BDFAB3 /* StoreItem.h */,
+				18EB61D31FA2392C00BDFAB3 /* StoreItem.m */,
+				18ED11E81FAE10ED007F4E92 /* StoreDetailItem.h */,
+				18ED11E91FAE10ED007F4E92 /* StoreDetailItem.m */,
+				18EB61DA1FA23D6100BDFAB3 /* StoreTableViewCell.h */,
+				18EB61DB1FA23D6100BDFAB3 /* StoreTableViewCell.m */,
+				18EB61E71FA2545E00BDFAB3 /* ProductAvailability.h */,
+				18EB61E81FA2545E00BDFAB3 /* ProductAvailability.m */,
+				18EB61E01FA2451B00BDFAB3 /* XYLocationManager.h */,
+				18EB61DF1FA2451A00BDFAB3 /* XYLocationManager.m */,
+				18ED11EE1FAE3134007F4E92 /* UIImage+XYImage.h */,
+				18ED11ED1FAE3134007F4E92 /* UIImage+XYImage.m */,
+				18EB61E31FA2453C00BDFAB3 /* LocationConverter.h */,
+				18EB61E21FA2453C00BDFAB3 /* LocationConverter.m */,
+				18ED11F31FAE4077007F4E92 /* OSLoaclNotificationHelper.h */,
+				18ED11F41FAE4077007F4E92 /* OSLoaclNotificationHelper.m */,
+				18ED11F71FAE43EE007F4E92 /* UIAlertView+Blocks.h */,
+				18ED11F61FAE43EE007F4E92 /* UIAlertView+Blocks.m */,
+				18EB61DC1FA23D6100BDFAB3 /* StoreTableViewCell.xib */,
+				18EB61B71FA22FB200BDFAB3 /* Main.storyboard */,
+				18EB61BA1FA22FB200BDFAB3 /* Assets.xcassets */,
+				18EB61D01FA236C200BDFAB3 /* Products.json */,
+				18EB61BC1FA22FB200BDFAB3 /* LaunchScreen.storyboard */,
+				18EB61BF1FA22FB200BDFAB3 /* Info.plist */,
+				18EB61C01FA22FB200BDFAB3 /* main.m */,
+			);
+			path = AppleStoreObserver;
+			sourceTree = "<group>";
+		};
+		C1480AA37BEE6FAD75DA8B49 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2D09013DDBF0D2349961C71E /* libPods-AppleStoreObserver.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CEF9345D329EC30CA78C1374 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9F41D283059F3B4D6DB8B94C /* Pods-AppleStoreObserver.debug.xcconfig */,
+				A0DE8F592CFCBBF0D0BE1119 /* Pods-AppleStoreObserver.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		18EB61AD1FA22FB200BDFAB3 /* AppleStoreObserver */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18EB61C41FA22FB200BDFAB3 /* Build configuration list for PBXNativeTarget "AppleStoreObserver" */;
+			buildPhases = (
+				19BACCAB0BB907F44116451F /* [CP] Check Pods Manifest.lock */,
+				18EB61AA1FA22FB200BDFAB3 /* Sources */,
+				18EB61AB1FA22FB200BDFAB3 /* Frameworks */,
+				18EB61AC1FA22FB200BDFAB3 /* Resources */,
+				81515F82EE355D394EBD9E20 /* [CP] Embed Pods Frameworks */,
+				577AD932FC483AE85E8D834F /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AppleStoreObserver;
+			productName = AppleStoreObserver;
+			productReference = 18EB61AE1FA22FB200BDFAB3 /* AppleStoreObserver.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		18EB61A61FA22FB200BDFAB3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0910;
+				ORGANIZATIONNAME = Ossey;
+				TargetAttributes = {
+					18EB61AD1FA22FB200BDFAB3 = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 18EB61A91FA22FB200BDFAB3 /* Build configuration list for PBXProject "AppleStoreObserver" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 18EB61A51FA22FB200BDFAB3;
+			productRefGroup = 18EB61AF1FA22FB200BDFAB3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				18EB61AD1FA22FB200BDFAB3 /* AppleStoreObserver */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		18EB61AC1FA22FB200BDFAB3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18EB61BE1FA22FB200BDFAB3 /* LaunchScreen.storyboard in Resources */,
+				18EB61E61FA24BEC00BDFAB3 /* ProductTableViewCell.xib in Resources */,
+				18EB61DE1FA23D6100BDFAB3 /* StoreTableViewCell.xib in Resources */,
+				18EB61D11FA236C200BDFAB3 /* Products.json in Resources */,
+				18EB61BB1FA22FB200BDFAB3 /* Assets.xcassets in Resources */,
+				18EB61B91FA22FB200BDFAB3 /* Main.storyboard in Resources */,
+				1845ED991FAECCBD00855799 /* storeImage.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		19BACCAB0BB907F44116451F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		577AD932FC483AE85E8D834F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AppleStoreObserver/Pods-AppleStoreObserver-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		81515F82EE355D394EBD9E20 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AppleStoreObserver/Pods-AppleStoreObserver-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		18EB61AA1FA22FB200BDFAB3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18ED11F51FAE4078007F4E92 /* OSLoaclNotificationHelper.m in Sources */,
+				18EB61D41FA2392C00BDFAB3 /* StoreItem.m in Sources */,
+				18ED11EF1FAE3134007F4E92 /* UIImage+XYImage.m in Sources */,
+				18EB61C81FA2329B00BDFAB3 /* ProductViewController.m in Sources */,
+				18EB61CC1FA2338900BDFAB3 /* ProductTableViewCell.m in Sources */,
+				18EB61E91FA2545E00BDFAB3 /* ProductAvailability.m in Sources */,
+				18EB61C11FA22FB200BDFAB3 /* main.m in Sources */,
+				18EB61D71FA23B5B00BDFAB3 /* StoreViewController.m in Sources */,
+				18EB61B31FA22FB200BDFAB3 /* AppDelegate.m in Sources */,
+				18ED11EA1FAE10ED007F4E92 /* StoreDetailItem.m in Sources */,
+				18EB61CF1FA233E800BDFAB3 /* ProductItem.m in Sources */,
+				18EB61E41FA2453C00BDFAB3 /* LocationConverter.m in Sources */,
+				18ED11F81FAE43EE007F4E92 /* UIAlertView+Blocks.m in Sources */,
+				18EB61DD1FA23D6100BDFAB3 /* StoreTableViewCell.m in Sources */,
+				18EB61E11FA2451B00BDFAB3 /* XYLocationManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		18EB61B71FA22FB200BDFAB3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18EB61B81FA22FB200BDFAB3 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		18EB61BC1FA22FB200BDFAB3 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18EB61BD1FA22FB200BDFAB3 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		18EB61C21FA22FB200BDFAB3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		18EB61C31FA22FB200BDFAB3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		18EB61C51FA22FB200BDFAB3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9F41D283059F3B4D6DB8B94C /* Pods-AppleStoreObserver.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NKW67GFDHM;
+				INFOPLIST_FILE = AppleStoreObserver/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ossey.AppleStoreObserver;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		18EB61C61FA22FB200BDFAB3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A0DE8F592CFCBBF0D0BE1119 /* Pods-AppleStoreObserver.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NKW67GFDHM;
+				INFOPLIST_FILE = AppleStoreObserver/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ossey.AppleStoreObserver;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		18EB61A91FA22FB200BDFAB3 /* Build configuration list for PBXProject "AppleStoreObserver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18EB61C21FA22FB200BDFAB3 /* Debug */,
+				18EB61C31FA22FB200BDFAB3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18EB61C41FA22FB200BDFAB3 /* Build configuration list for PBXNativeTarget "AppleStoreObserver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18EB61C51FA22FB200BDFAB3 /* Debug */,
+				18EB61C61FA22FB200BDFAB3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 18EB61A61FA22FB200BDFAB3 /* Project object */;
+}
