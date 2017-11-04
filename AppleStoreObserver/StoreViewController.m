@@ -52,23 +52,23 @@ static NSString *cellIdentifier = @"StoreTableViewCell";
         });
         
         // 请求store详情
-//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//            [self.storeArray enumerateObjectsUsingBlock:^(StoreItem * _Nonnull store, NSUInteger idx, BOOL * _Nonnull stop) {
-//                dispatch_group_enter(_loadDetailGroup);
-//                [self loadStoreDetailWithStoreNumber:store.storeNumber completionHandler:^(StoreDetailItem *detailItem) {
-//                    dispatch_group_leave(_loadDetailGroup);
-//                    if ([store.storeNumber isEqualToString:detailItem.extraStoreInfo.storeNumber]) {
-//                        store.deatilItem = detailItem;
-//                    }
-//                }];
-//            }];
-//
-//            dispatch_group_wait(_loadDetailGroup, DISPATCH_TIME_FOREVER);
-//
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self.tableView reloadData];
-//            });
-//        });
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            [self.storeArray enumerateObjectsUsingBlock:^(StoreItem * _Nonnull store, NSUInteger idx, BOOL * _Nonnull stop) {
+                dispatch_group_enter(_loadDetailGroup);
+                [self loadStoreDetailWithStoreNumber:store.storeNumber completionHandler:^(StoreDetailItem *detailItem) {
+                    dispatch_group_leave(_loadDetailGroup);
+                    if ([store.storeNumber isEqualToString:detailItem.extraStoreInfo.storeNumber]) {
+                        store.deatilItem = detailItem;
+                    }
+                }];
+            }];
+
+            dispatch_group_wait(_loadDetailGroup, DISPATCH_TIME_FOREVER);
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+        });
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         self.tableView.xy_loading = NO;
