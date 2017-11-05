@@ -16,29 +16,90 @@
 static NSString * const stores = @"https://reserve-prime.apple.com/CN/zh_CN/reserve/iPhoneX/stores.json";
 
 @interface StoreViewController () <UITableViewDelegate, UITableViewDataSource, NoDataPlaceholderDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSArray<StoreItem *> *storeArray;
+@property (nonatomic, strong) IBInspectable UITableView *tableView;
 @property (nonatomic, strong) dispatch_group_t loadDetailGroup;
-
+@property (nonatomic, assign) BOOL editMode;
+@property (nonatomic, strong) NSArray<StoreItem *> *storeArray;
+@property (nonatomic, copy) void (^editCompletionHandler)(NSDictionary<NSString *, StoreItem *> *editStores);
 @end
 
 @implementation StoreViewController
 
 static NSString *cellIdentifier = @"StoreTableViewCell";
 
++ (UINavigationController *)editModeStoreViewControllerWithStores:(NSArray *)stores completion:(void (^)(NSDictionary<NSString *,StoreItem *> *))completion {
+    StoreViewController *vc = [[StoreViewController alloc] init];
+    vc.storeArray = stores;
+    vc.editMode = YES;
+    vc.editCompletionHandler = completion;
+    UINavigationController *nac = [[UINavigationController alloc] initWithRootViewController:vc];
+    vc.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:vc action:@selector(barButtonItemClick)];
+    return nac;
+}
+
+- (void)barButtonItemClick {
+    NSMutableDictionary *dict = @{}.mutableCopy;
+    [self.tableView.indexPathsForSelectedRows enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull seleIndexPath, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSUInteger foudIdx = [self.storeArray indexOfObjectPassingTest:^BOOL(StoreItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            return idx == seleIndexPath.row;
+        }];
+        if (foudIdx != NSNotFound) {
+            StoreItem *item = [self.storeArray objectAtIndex:foudIdx];
+            [dict setObject:item forKey:item.storeNumber];
+        }
+    }];
+    if (self.editCompletionHandler) {
+        self.editCompletionHandler(dict);
+    }
+    UIViewController *rootViewController = (UINavigationController *)[UIApplication sharedApplication].delegate.window.rootViewController;
+    if ([rootViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *nac = (UINavigationController *)rootViewController;
+        if (self.presentedViewController || nac.topViewController.presentedViewController) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        } else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+    else if ([rootViewController isKindOfClass:[UITabBarController class]]) {
+        UITabBarController *tabc = (UITabBarController *)rootViewController;
+        UINavigationController *nac = tabc.selectedViewController;
+        if ([nac isKindOfClass:[UINavigationController class]]) {
+            if (self.presentedViewController || nac.presentedViewController) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            } else {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }
+        
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.view addSubview:self.tableView];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[tableView]|" options:kNilOptions metrics:nil views:@{@"tableView": self.tableView}]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
     
     self.title = @"零售店";
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([StoreTableViewCell class]) bundle:nil] forCellReuseIdentifier:cellIdentifier];
     _loadDetailGroup = dispatch_group_create();
+    
+    if (self.editMode) {
+        self.tableView.allowsMultipleSelection = YES;
+        [self.tableView setEditing:YES animated:YES];
+    }
     [self loadStores];
     [self setupNodataView];
 }
 
 - (void)loadStores {
     self.tableView.xy_loading = YES;
+    if (self.storeArray.count && self.editMode) {
+        self.tableView.xy_loading = NO;
+        return;
+    }
     [[AFHTTPSessionManager manager] GET:stores parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSArray *storesJson = responseObject[@"stores"];
         NSMutableArray *storeArray = @[].mutableCopy;
@@ -135,13 +196,24 @@ static NSString *cellIdentifier = @"StoreTableViewCell";
     return 120.0;
 }
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleInsert | UITableViewCellEditingStyleDelete;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    UIStoryboard *mainStoreboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    ProductViewController *vc = [mainStoreboard instantiateViewControllerWithIdentifier:@"ProductViewController"];
-    vc.store = self.storeArray[indexPath.row];
-    [self.navigationController showViewController:vc sender:self];
+    if (tableView.isEditing) {
+        
+    }
+    else {
+        UIStoryboard *mainStoreboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        ProductViewController *vc = [mainStoreboard instantiateViewControllerWithIdentifier:@"ProductViewController"];
+        vc.store = self.storeArray[indexPath.row];
+        vc.allStores = self.storeArray;
+        [self.navigationController showViewController:vc sender:self];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+   
 }
     
 
@@ -223,5 +295,19 @@ static NSString *cellIdentifier = @"StoreTableViewCell";
     return YES;
 }
 
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+////////////////////////////////////////////////////////////////////////
+- (UITableView *)tableView{
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] init];
+        _tableView.translatesAutoresizingMaskIntoConstraints = NO;
+        _tableView.dataSource      = self;
+        _tableView.delegate        = self;
+        _tableView.backgroundColor = [UIColor whiteColor];
+        _tableView.tableFooterView = [[UIView alloc] init];
+    }
+    return _tableView;
+}
 
 @end

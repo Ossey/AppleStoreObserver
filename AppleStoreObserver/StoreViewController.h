@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class StoreItem;
+
 @interface StoreViewController : UIViewController
+
++ (UINavigationController *)editModeStoreViewControllerWithStores:(NSArray *)stores completion:(void (^)(NSDictionary<NSString *, StoreItem *> *editStores))completion;
 
 @end

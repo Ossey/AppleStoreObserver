@@ -14,9 +14,7 @@
 #import "ProductAvailability.h"
 #import "OSLoaclNotificationHelper.h"
 #import "UIAlertView+Blocks.h"
-
-#define SCREEN_WIDTH                        [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HIGHT                        [UIScreen mainScreen].bounds.size.height
+#import "StoreViewController.h"
 
 static NSString * const availability = @"https://reserve-prime.apple.com/CN/zh_CN/reserve/iPhoneX/availability.json";
 
@@ -30,6 +28,8 @@ static NSString * const availability = @"https://reserve-prime.apple.com/CN/zh_C
 @property (nonatomic, strong) NSMutableArray *selectedPartNumbers;
 @property (nonatomic, strong) NSURL *reserveURL;
 @property (nonatomic, strong) UIButton *monitorButton;
+/// 需要监测的商店
+@property (nonatomic, strong) NSMutableDictionary<NSString *, StoreItem *>  *selectStores;
 @end
 
 @implementation ProductViewController {
@@ -47,11 +47,10 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([ProductTableViewCell class]) bundle:nil] forCellReuseIdentifier:cellIdentifier];
     [self loadProducts];
     
-    self.tableView.allowsMultipleSelection = YES;
-    //    [self.tableView setEditing:YES animated:YES];
-    
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarItemClick:)];
     self.navigationItem.rightBarButtonItem = item;
+    
+    self.tableView.allowsMultipleSelection = YES;
     
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.editingView];
@@ -84,6 +83,25 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
     if ([[self.monitorButton titleForState:UIControlStateNormal] isEqualToString:@"停止监测"]) {
         [self p__buttonClick:self.monitorButton];
     }
+}
+
+- (void)setStore:(StoreItem *)store {
+    _store = store;
+    if (!self.selectStores) {
+        self.selectStores = @[].mutableCopy;
+    }
+    if (!store) {
+        return;
+    }
+    [self.selectStores setObject:store forKey:store.storeNumber];
+    
+}
+
+- (NSMutableDictionary *)selectStores {
+    if (!_selectStores) {
+        _selectStores = @{}.mutableCopy;
+    }
+    return _selectStores;
 }
     
 #pragma mark -- event response
@@ -120,7 +138,7 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
             [self selectProduct:obj];
         }];
         [sender setTitle:@"全不选" forState:UIControlStateNormal];
-    }else if ([[sender titleForState:UIControlStateNormal] isEqualToString:@"全不选"]){
+    } else if ([[sender titleForState:UIControlStateNormal] isEqualToString:@"全不选"]){
         [self.tableView reloadData];
         // 遍历反选
 //        [[self.tableView indexPathsForSelectedRows] enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -130,6 +148,14 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
         
         [sender setTitle:@"全选" forState:UIControlStateNormal];
         
+    } else if ([[sender titleForState:UIControlStateNormal] isEqualToString:@"选择商店"]) {
+        UINavigationController *vc = [StoreViewController editModeStoreViewControllerWithStores:self.allStores completion:^(NSDictionary<NSString *,StoreItem *> *editStores) {
+            
+            if (editStores) {
+                [self.selectStores addEntriesFromDictionary:editStores];
+            }
+        }];
+        [self showDetailViewController:vc sender:self];
     }
 }
     
@@ -161,21 +187,24 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
 /// 请求有效的可预订的产品
 - (void)requestAvailabilityProduct {
     [[AFHTTPSessionManager manager] GET:availability parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSString *storeNum = self.store.storeNumber;
-        NSDictionary *stores = responseObject[@"stores"];
-        NSDictionary *dictArray = stores[storeNum];
-        [dictArray enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull partNumber, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            ProductItem *item = [self getProductByPartNumber:partNumber];
-            if (item) {
-                ProductAvailability *availability = [[ProductAvailability alloc] initWithPartNumber:partNumber dict:obj];
-                item.productAvailability = availability;
-                if (availability.contract || availability.unlocked) {
-                     NSString *urlString = [NSString stringWithFormat:@"https://reserve-prime.apple.com/CN/zh_CN/reserve/iPhoneX/availability?channel=1&returnURL=&store=%@&partNumber=%@", self.store.storeNumber, item.partNumber];
-                    NSDictionary *dict = @{@"partNumber": item.partNumber, @"storeName": self.store.storeName, @"description": item.description_, @"urlString": urlString};
-                    [[OSLoaclNotificationHelper sharedInstance] sendLocalNotificationWithMessageDict:dict];
+        [self.selectStores enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, StoreItem * _Nonnull store, BOOL * _Nonnull stop) {
+            NSString *storeNum = store.storeNumber;
+            NSDictionary *stores = responseObject[@"stores"];
+            NSDictionary *dictArray = stores[storeNum];
+            [dictArray enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull partNumber, id  _Nonnull obj, BOOL * _Nonnull stop) {
+                ProductItem *item = [self getProductByPartNumber:partNumber];
+                if (item) {
+                    ProductAvailability *availability = [[ProductAvailability alloc] initWithPartNumber:partNumber dict:obj];
+                    item.productAvailability = availability;
+                    if (availability.contract || availability.unlocked) {
+                        NSString *urlString = [NSString stringWithFormat:@"https://reserve-prime.apple.com/CN/zh_CN/reserve/iPhoneX/availability?channel=1&returnURL=&store=%@&partNumber=%@", store.storeNumber, item.partNumber];
+                        NSDictionary *dict = @{@"partNumber": item.partNumber, @"storeName": store.storeName, @"description": item.description_, @"urlString": urlString};
+                        [[OSLoaclNotificationHelper sharedInstance] sendLocalNotificationWithMessageDict:dict];
+                    }
                 }
-            }
+            }];
         }];
+        
         [self.tableView reloadData];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -349,7 +378,7 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
         button.translatesAutoresizingMaskIntoConstraints = NO;
         [_editingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[button]|" options:kNilOptions metrics:nil views:@{@"button": button}]];
         [_editingView addConstraint:[NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:_editingView attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]];
-         [_editingView addConstraint:[NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_editingView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0]];
+         [_editingView addConstraint:[NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_editingView attribute:NSLayoutAttributeWidth multiplier:0.33 constant:0.0]];
     
         button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.backgroundColor = [UIColor darkGrayColor];
@@ -360,14 +389,25 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
         button.translatesAutoresizingMaskIntoConstraints = NO;
         [_editingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[button]|" options:kNilOptions metrics:nil views:@{@"button": button}]];
         [_editingView addConstraint:[NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_editingView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]];
-        [_editingView addConstraint:[NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_editingView attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0]];
+        [_editingView addConstraint:[NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_editingView attribute:NSLayoutAttributeWidth multiplier:0.33 constant:0.0]];
+        
+        button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.backgroundColor = [UIColor blackColor];
+        [button setTitle:@"选择商店" forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(p__buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_editingView addSubview:button];
+        button.translatesAutoresizingMaskIntoConstraints = NO;
+        [_editingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[button]|" options:kNilOptions metrics:nil views:@{@"button": button}]];
+        [_editingView addConstraint:[NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_editingView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+        [_editingView addConstraint:[NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_editingView attribute:NSLayoutAttributeWidth multiplier:0.33 constant:0.0]];
     }
     return _editingView;
 }
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HIGHT-64)];
+        _tableView = [[UITableView alloc] init];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
         _tableView.dataSource      = self;
         _tableView.delegate        = self;

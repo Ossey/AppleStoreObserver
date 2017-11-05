@@ -11,7 +11,10 @@
 
 @interface ProductViewController : UIViewController
 
+/// 当期页面进入时的store
 @property (nonatomic, strong) StoreItem *store;
+/// 所有商店
+@property (nonatomic, strong) NSArray *allStores;
 
 @end
 
