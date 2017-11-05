@@ -30,6 +30,7 @@ static NSString * const availability = @"https://reserve-prime.apple.com/CN/zh_C
 @property (nonatomic, strong) UIButton *monitorButton;
 /// 需要监测的商店
 @property (nonatomic, strong) NSMutableDictionary<NSString *, StoreItem *>  *selectStores;
+@property (nonatomic, assign) BOOL shouldStartMonitor;
 @end
 
 @implementation ProductViewController {
@@ -64,6 +65,13 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self endMonitor];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.shouldStartMonitor) {
+        [self startMonitor];
+    }
 }
     
 - (void)rightBarItemClick:(UIBarButtonItem *)item{
@@ -114,6 +122,7 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
         [[self.tableView indexPathsForSelectedRows] enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [insets addIndex:obj.row];
         }];
+        self.shouldStartMonitor = YES;
         [self startMonitor];
 
         [sender setTitle:@"停止监测" forState:UIControlStateNormal];
@@ -128,6 +137,7 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
     }
     else if ([[sender titleForState:UIControlStateNormal] isEqualToString:@"停止监测"]) {
         self.view.userInteractionEnabled = NO;
+        self.shouldStartMonitor = NO;
         [sender setTitle:@"开始监测" forState:UIControlStateNormal];
         [self endMonitor];
         self.view.userInteractionEnabled = YES;
@@ -196,7 +206,8 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
                 if (item) {
                     ProductAvailability *availability = [[ProductAvailability alloc] initWithPartNumber:partNumber dict:obj];
                     item.productAvailability = availability;
-                    if (availability.contract || availability.unlocked) {
+                    if ((availability.contract || availability.unlocked) &&
+                        [self.selectedPartNumbers containsObject:partNumber]) {
                         NSString *urlString = [NSString stringWithFormat:@"https://reserve-prime.apple.com/CN/zh_CN/reserve/iPhoneX/availability?channel=1&returnURL=&store=%@&partNumber=%@", store.storeNumber, item.partNumber];
                         NSDictionary *dict = @{@"partNumber": item.partNumber, @"storeName": store.storeName, @"description": item.description_, @"urlString": urlString};
                         [[OSLoaclNotificationHelper sharedInstance] sendLocalNotificationWithMessageDict:dict];
