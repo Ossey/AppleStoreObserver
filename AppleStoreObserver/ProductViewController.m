@@ -325,7 +325,10 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
                 [alert addAction:[UIAlertAction actionWithTitle:@"预定"
                                                           style:UIAlertActionStyleDestructive
                                                         handler:^(UIAlertAction * _Nonnull action) {
-                                                            ProductItem *item = [self.productArray objectAtIndex:indexPath.row];
+                                                            if (indexPath.row >= self.collectionOfReservations.count) {
+                                                                return;
+                                                            }
+                                                            ProductItem *item = [self.collectionOfReservations objectAtIndex:indexPath.row];
                                                             if (!item) {
                                                                 return;
                                                             }
