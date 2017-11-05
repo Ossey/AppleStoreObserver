@@ -209,7 +209,7 @@ static NSString *cellIdentifier = @"StoreTableViewCell";
         UIStoryboard *mainStoreboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         ProductViewController *vc = [mainStoreboard instantiateViewControllerWithIdentifier:@"ProductViewController"];
         vc.store = self.storeArray[indexPath.row];
-        vc.allStores = self.storeArray;
+        vc.allStores = [self.storeArray mutableCopy];
         [self.navigationController showViewController:vc sender:self];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }

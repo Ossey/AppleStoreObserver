@@ -48,7 +48,7 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([ProductTableViewCell class]) bundle:nil] forCellReuseIdentifier:cellIdentifier];
     [self loadProducts];
     
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarItemClick:)];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"监测" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarItemClick:)];
     self.navigationItem.rightBarButtonItem = item;
     
     self.tableView.allowsMultipleSelection = YES;
@@ -75,7 +75,7 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
 }
     
 - (void)rightBarItemClick:(UIBarButtonItem *)item{
-    if ([item.title isEqualToString:@"编辑"]) {
+    if ([item.title isEqualToString:@"监测"]) {
         if (self.productArray.count == 0) {
             return;
         }
@@ -83,7 +83,7 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
         [self.tableView setEditing:YES animated:YES];
         [self showEitingView:YES];
     } else {
-        item.title = @"编辑";
+        item.title = @"监测";
         [self.tableView setEditing:NO animated:YES];
         [self showEitingView:NO];
         [self.selectedPartNumbers removeAllObjects];
@@ -112,7 +112,9 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
     return _selectStores;
 }
     
-#pragma mark -- event response
+////////////////////////////////////////////////////////////////////////
+#pragma mark - event response
+////////////////////////////////////////////////////////////////////////
     
 - (void)p__buttonClick:(UIButton *)sender{
     if ([[sender titleForState:UIControlStateNormal] isEqualToString:@"开始监测"]) {
@@ -126,9 +128,9 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
         [self startMonitor];
 
         [sender setTitle:@"停止监测" forState:UIControlStateNormal];
-        /** 数据清空情况下取消编辑状态*/
+        /** 数据清空情况下取消监测状态*/
         if (self.productArray.count == 0) {
-            self.navigationItem.rightBarButtonItem.title = @"编辑";
+            self.navigationItem.rightBarButtonItem.title = @"监测";
             [self.tableView setEditing:NO animated:YES];
             [self showEitingView:NO];
         }
