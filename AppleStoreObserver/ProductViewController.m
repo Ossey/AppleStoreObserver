@@ -31,6 +31,8 @@ static NSString * const availability = @"https://reserve-prime.apple.com/CN/zh_C
 /// 需要监测的商店
 @property (nonatomic, strong) NSMutableDictionary<NSString *, StoreItem *>  *selectStores;
 @property (nonatomic, assign) BOOL shouldStartMonitor;
+/// 可预订的数组
+@property (nonatomic, strong) NSMutableArray *collectionOfReservations;
 @end
 
 @implementation ProductViewController {
@@ -111,7 +113,14 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
     }
     return _selectStores;
 }
-    
+
+- (NSMutableArray *)collectionOfReservations {
+    if (!_collectionOfReservations) {
+        _collectionOfReservations = @[].mutableCopy;
+    }
+    return _collectionOfReservations;
+}
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark - event response
 ////////////////////////////////////////////////////////////////////////
@@ -210,9 +219,12 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
                     item.productAvailability = availability;
                     if ((availability.contract || availability.unlocked) &&
                         [self.selectedPartNumbers containsObject:partNumber]) {
-                        NSString *urlString = [NSString stringWithFormat:@"https://reserve-prime.apple.com/CN/zh_CN/reserve/iPhoneX/availability?channel=1&returnURL=&store=%@&partNumber=%@", store.storeNumber, item.partNumber];
-                        NSDictionary *dict = @{@"partNumber": item.partNumber, @"storeName": store.storeName, @"description": item.description_, @"urlString": urlString};
-                        [[OSLoaclNotificationHelper sharedInstance] sendLocalNotificationWithMessageDict:dict];
+                        if ( [UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+                            NSString *urlString = [NSString stringWithFormat:@"https://reserve-prime.apple.com/CN/zh_CN/reserve/iPhoneX/availability?channel=1&returnURL=&store=%@&partNumber=%@", store.storeNumber, item.partNumber];
+                            NSDictionary *dict = @{@"partNumber": item.partNumber, @"storeName": store.storeName, @"description": item.description_, @"urlString": urlString};
+                            [[OSLoaclNotificationHelper sharedInstance] sendLocalNotificationWithMessageDict:dict];
+                        }
+                        [self.collectionOfReservations insertObject:item atIndex:0];
                     }
                 }
             }];
@@ -265,37 +277,51 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
 #pragma mark - UITableViewDelegate, UITableViewDataSource
 ////////////////////////////////////////////////////////////////////////
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return self.productArray.count;
+    if (section == 1) {
+        return self.productArray.count;
+    }
+    else {
+        return self.collectionOfReservations.count;
+    }
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     ProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    cell.product = self.productArray[indexPath.row];
+    if (indexPath.section == 1) {
+        cell.product = self.productArray[indexPath.row];
+    }
+    else {
+        cell.product = self.collectionOfReservations[indexPath.row];
+    }
     
     NSUInteger foundIndx = [self.selectedPartNumbers indexOfObjectPassingTest:^BOOL(NSString *  _Nonnull numbers, NSUInteger idx, BOOL * _Nonnull stop) {
         return [numbers isEqualToString:cell.product.partNumber];
     }];
-    if (self.selectedPartNumbers.count && foundIndx != NSNotFound) {
+    if (indexPath.section == 1 &&  self.selectedPartNumbers.count && foundIndx != NSNotFound) {
         [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
     else {
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
     }
     cell.longGesOnCell = ^(ProductTableViewCell *cell, UILongPressGestureRecognizer *longGes) {
-        if (tableView.isEditing) {
+        if (tableView.isEditing && indexPath.section == 0) {
             UIAlertController *alertController = ({
                 UIAlertController *alert = [UIAlertController
-                                            alertControllerWithTitle:@"请选择"
+                                            alertControllerWithTitle:nil
                                             message:nil
                                             preferredStyle:UIAlertControllerStyleAlert];
-                [alert addAction:[UIAlertAction actionWithTitle:@"取消选中"
-                                                          style:UIAlertActionStyleCancel
-                                                        handler:^(UIAlertAction * _Nonnull action) {
-                                                            [tableView deselectRowAtIndexPath:indexPath animated:YES];
-                                                        }]];
+//                [alert addAction:[UIAlertAction actionWithTitle:@"移除"
+//                                                          style:UIAlertActionStyleCancel
+//                                                        handler:^(UIAlertAction * _Nonnull action) {
+//                                                            [self.collectionOfReservations removeObjectAtIndex:indexPath.row];
+//                                                        }]];
                 [alert addAction:[UIAlertAction actionWithTitle:@"预定"
                                                           style:UIAlertActionStyleDestructive
                                                         handler:^(UIAlertAction * _Nonnull action) {
@@ -313,6 +339,9 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
                                                                 [[UIApplication sharedApplication] openURL:url];
                                                             }
                                                         }]];
+                [alert addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                          style:UIAlertActionStyleCancel
+                                                        handler:NULL]];
                 
                 alert;
             });
@@ -323,36 +352,75 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
     
     return cell;
 }
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 1) {
+        return @"产品列表";
+    }
+    else {
+        if (self.collectionOfReservations.count) {
+            return @"可预订的产品";
+        }
+        else {
+            return nil;
+        }
+    }
+    return nil;
+}
     
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 110.0;
 }
     
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (tableView.isEditing) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
-        });
-        
-        ProductItem *item = [self.productArray objectAtIndex:indexPath.row];
-        [self selectProduct:item];
+  
+    if (indexPath.section == 1) {
+        // 手动触发cell为选中状态
+        if (tableView.isEditing) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+            });
+            
+            ProductItem *item = [self.productArray objectAtIndex:indexPath.row];
+            [self selectProduct:item];
+        }
+    }
+    else {
+        ProductItem *item = [self.collectionOfReservations objectAtIndex:indexPath.row];
+        if (!item) {
+            return;
+        }
+        NSString *urlString = [NSString stringWithFormat:@"https://reserve-prime.apple.com/CN/zh_CN/reserve/iPhoneX/availability?channel=1&returnURL=&store=%@&partNumber=%@", self.store.storeNumber, item.partNumber];
+        NSURL *url = [NSURL URLWithString:urlString];
+        if (@available(iOS 10.0, *)) {
+            [[UIApplication sharedApplication] openURL:url options:nil completionHandler:^(BOOL success) {
+                
+            }];
+        } else {
+            [[UIApplication sharedApplication] openURL:url];
+        }
     }
     
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (tableView.isEditing) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-           [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        });
-        ProductItem *item = [self.productArray objectAtIndex:indexPath.row];
-        [self deSelectProduct:item];
+    if (indexPath.section == 1) {
+        if (tableView.isEditing) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [tableView deselectRowAtIndexPath:indexPath animated:YES];
+            });
+            ProductItem *item = [self.productArray objectAtIndex:indexPath.row];
+            [self deSelectProduct:item];
+        }
     }
+    else {
+        
+    }
+    
 }
     
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewCellEditingStyleInsert | UITableViewCellEditingStyleDelete;
+    return indexPath.section == 1 ? UITableViewCellEditingStyleInsert | UITableViewCellEditingStyleDelete : UITableViewCellEditingStyleNone;
 }
 
 - (void)selectProduct:(ProductItem *)product {
@@ -420,7 +488,7 @@ static NSString *const cellIdentifier = @"ProductTableViewCell";
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] init];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
         _tableView.dataSource      = self;
         _tableView.delegate        = self;
